@@ -5,15 +5,7 @@ import sys
 import threading
 import requests
 from apikey import EMOJI_API_KEY, QUOTES_API_KEY
-
-# Fortune Cookies
-fortunes = [
-    "You will have a great day today!",
-    "Something wonderful is about to happen.",
-    "You will meet someone special soon.",
-    "A new opportunity will come your way.",
-    "Expect the unexpected."
-]
+from fortunes import FORTUNES
 
 # Typing messages
 typing_messages = [
@@ -51,12 +43,16 @@ def fetch_random_quote():
         print(f"Error fetching quote: {e}")
         return "The best way to predict the future is to invent it. — Alan Kay"  # Fallback quote
 
+# Function to fetch a random fortune from the hardcoded fortunes
+def fetch_random_fortune():
+    return random.choice(FORTUNES)
+
 def print_random_message():
     while True:
         if random.choice([True, False]):
             print(f"\n{fetch_random_quote()}\n")
         else:
-            print(f"\n{random.choice(fortunes)}\n")
+            print(f"\n{fetch_random_fortune()}\n")
         time.sleep(3600)  # Every hour
 
 def change_screen_color():
