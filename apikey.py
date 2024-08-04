@@ -1,2 +1,3 @@
 # apikey.py
-EMOJI_API_KEY = '8a32d4d672c15095e513b57a63d8ea8377a99b5a'
+EMOJI_API_KEY = 'your_emoji_api_key_here'
+QUOTES_API_KEY = 'your_quotes_api_key_here'
