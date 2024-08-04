@@ -3,6 +3,7 @@ import random
 import os
 import sys
 import threading
+import requests
 
 # Motivational Quotes
 quotes = [
@@ -11,9 +12,6 @@ quotes = [
     "You miss 100% of the shots you don’t take.",
     "The journey of a thousand miles begins with one step."
 ]
-
-# Emojis
-emojis = ['😀', '😂', '😅', '😎', '😍', '😡', '😢', '😱', '👍', '👎']
 
 # Fortune Cookies
 fortunes = [
@@ -32,6 +30,19 @@ typing_messages = [
     "Loading...",
     "Calculating..."
 ]
+
+# Function to fetch a random emoji from an API
+def fetch_random_emoji():
+    try:
+        response = requests.get('https://emoji-api.com/emojis?access_key=your_access_key')
+        if response.status_code == 200:
+            emojis = response.json()
+            return random.choice(emojis)['character']
+        else:
+            return random.choice(['😀', '😂', '😅', '😎', '😍', '😡', '😢', '😱', '👍', '👎'])  # Fallback emojis
+    except Exception as e:
+        print(f"Error fetching emoji: {e}")
+        return random.choice(['😀', '😂', '😅', '😎', '😍', '😡', '😢', '😱', '👍', '👎'])  # Fallback emojis
 
 def print_random_message():
     while True:
@@ -57,7 +68,8 @@ def show_typing_indicator():
 
 def print_random_emoji():
     while True:
-        print(f"\n Current Mood: {random.choice(emojis)} ?")
+        emoji = fetch_random_emoji()
+        print(f"\n Current Mood: {emoji} ?")
         time.sleep(300)  # Every 300 seconds (5 minutes)
 
 # Run the functions in separate threads
