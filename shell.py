@@ -24,6 +24,15 @@ fortunes = [
     "Expect the unexpected."
 ]
 
+# Typing messages
+typing_messages = [
+    "Typing...",
+    "Thinking...",
+    "Processing...",
+    "Loading...",
+    "Calculating..."
+]
+
 def print_random_message():
     while True:
         if random.choice([True, False]):
@@ -40,8 +49,9 @@ def change_screen_color():
 
 def show_typing_indicator():
     while True:
+        message = random.choice(typing_messages)
         for char in '|/-\\':
-            sys.stdout.write(f'\r{char} Typing...')
+            sys.stdout.write(f'\r{char} {message}')
             sys.stdout.flush()
             time.sleep(0.1)
 
