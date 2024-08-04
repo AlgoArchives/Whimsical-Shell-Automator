@@ -4,8 +4,8 @@ import os
 import sys
 import threading
 import requests
-from apikey import EMOJI_API_KEY, QUOTES_API_KEY
-from fortunes import FORTUNES
+from apikey import EMOJI_API_KEY, QUOTES_API_KEY  # Import the API keys
+from fortunes import FORTUNES  # Import the fortunes
 
 # Typing messages
 typing_messages = [
@@ -47,6 +47,20 @@ def fetch_random_quote():
 def fetch_random_fortune():
     return random.choice(FORTUNES)
 
+# Function to fetch a random color from an API
+def fetch_random_color():
+    try:
+        response = requests.get('https://www.thecolorapi.com/random')
+        if response.status_code == 200:
+            color = response.json()
+            hex_value = color['hex']['clean']
+            return f'{hex_value[0]}{hex_value[1]}', f'{hex_value[2]}{hex_value[3]}'
+        else:
+            return '0A', '0B'  # Fallback colors
+    except Exception as e:
+        print(f"Error fetching color: {e}")
+        return '0A', '0B'  # Fallback colors
+
 def print_random_message():
     while True:
         if random.choice([True, False]):
@@ -57,8 +71,9 @@ def print_random_message():
 
 def change_screen_color():
     while True:
-        color = random.choice(['0A', '0B', '0C', '0D', '0E', '0F'])
-        os.system(f'color {color}')
+        color1, color2 = fetch_random_color()
+        os.system(f'color {color1}')
+        os.system(f'color {color2}')
         time.sleep(5)  # Every 5 seconds
 
 def show_typing_indicator():
