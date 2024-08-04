@@ -4,15 +4,7 @@ import os
 import sys
 import threading
 import requests
-from apikey import EMOJI_API_KEY
-
-# Motivational Quotes
-quotes = [
-    "Believe you can and you're halfway there.",
-    "The only way to do great work is to love what you do.",
-    "You miss 100% of the shots you don’t take.",
-    "The journey of a thousand miles begins with one step."
-]
+from apikey import EMOJI_API_KEY, QUOTES_API_KEY
 
 # Fortune Cookies
 fortunes = [
@@ -45,10 +37,24 @@ def fetch_random_emoji():
         print(f"Error fetching emoji: {e}")
         return random.choice(['😀', '😂', '😅', '😎', '😍', '😡', '😢', '😱', '👍', '👎'])  # Fallback emojis
 
+# Function to fetch a random quote from the API Ninjas Quotes API
+def fetch_random_quote():
+    try:
+        response = requests.get('https://api.api-ninjas.com/v1/quotes?limit=1', headers={'X-Api-Key': QUOTES_API_KEY})
+        if response.status_code == 200:
+            quote = response.json()[0]
+            return f"{quote['quote']} — {quote['author']}"
+        else:
+            print(f"Error fetching quote: HTTP {response.status_code}")
+            return "The best way to predict the future is to invent it. — Alan Kay"  # Fallback quote
+    except Exception as e:
+        print(f"Error fetching quote: {e}")
+        return "The best way to predict the future is to invent it. — Alan Kay"  # Fallback quote
+
 def print_random_message():
     while True:
         if random.choice([True, False]):
-            print(f"\n{random.choice(quotes)}\n")
+            print(f"\n{fetch_random_quote()}\n")
         else:
             print(f"\n{random.choice(fortunes)}\n")
         time.sleep(3600)  # Every hour
