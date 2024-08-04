@@ -4,6 +4,7 @@ import os
 import sys
 import threading
 import requests
+from apikey import EMOJI_API_KEY
 
 # Motivational Quotes
 quotes = [
@@ -34,7 +35,7 @@ typing_messages = [
 # Function to fetch a random emoji from an API
 def fetch_random_emoji():
     try:
-        response = requests.get('https://emoji-api.com/emojis?access_key=your_access_key')
+        response = requests.get(f'https://emoji-api.com/emojis?access_key={EMOJI_API_KEY}')
         if response.status_code == 200:
             emojis = response.json()
             return random.choice(emojis)['character']
