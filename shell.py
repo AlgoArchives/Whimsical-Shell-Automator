@@ -26,7 +26,7 @@ def fetch_random_emoji():
         else:
             return random.choice(['😀', '😂', '😅', '😎', '😍', '😡', '😢', '😱', '👍', '👎'])  # Fallback emojis
     except Exception as e:
-        print(f"Error fetching emoji: {e}")
+        # print(f"Error fetching emoji: {e}")
         return random.choice(['😀', '😂', '😅', '😎', '😍', '😡', '😢', '😱', '👍', '👎'])  # Fallback emojis
 
 # Function to fetch a random quote from the API Ninjas Quotes API
@@ -37,10 +37,10 @@ def fetch_random_quote():
             quote = response.json()[0]
             return f"{quote['quote']} — {quote['author']}"
         else:
-            print(f"Error fetching quote: HTTP {response.status_code}")
+            # print(f"Error fetching quote: HTTP {response.status_code}")
             return "The best way to predict the future is to invent it. — Alan Kay"  # Fallback quote
     except Exception as e:
-        print(f"Error fetching quote: {e}")
+        # print(f"Error fetching quote: {e}")
         return "The best way to predict the future is to invent it. — Alan Kay"  # Fallback quote
 
 # Function to fetch a random fortune from the hardcoded fortunes
@@ -63,7 +63,7 @@ def fetch_random_light_color():
                 if (r*0.299 + g*0.587 + b*0.114) > 186:
                     return r, g, b
     except Exception as e:
-        print(f"Error fetching color: {e}")
+        # print(f"Error fetching color: {e}")
         return 255, 255, 255  # Fallback light color (white)
 
 def change_screen_color():
