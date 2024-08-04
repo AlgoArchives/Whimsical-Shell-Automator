@@ -61,16 +61,16 @@ def fetch_random_light_color():
                 b = int(hex_value[4:6], 16)
                 # Check if the color is light
                 if (r*0.299 + g*0.587 + b*0.114) > 186:
-                    return hex_value
+                    return r, g, b
     except Exception as e:
         print(f"Error fetching color: {e}")
-        return 'FFFFFF'  # Fallback light color
+        return 255, 255, 255  # Fallback light color (white)
 
 def change_screen_color():
     while True:
-        hex_color = fetch_random_light_color()
-        color_code = f'38;2;{int(hex_color[0:2], 16)};{int(hex_color[2:4], 16)};{int(hex_color[4:6], 16)}'
-        os.system(f'echo \033[{color_code}m')
+        r, g, b = fetch_random_light_color()
+        color_code = f'\033[38;2;{r};{g};{b}m'
+        print(color_code, end='')
         time.sleep(5)  # Every 5 seconds
 
 def print_random_message():
