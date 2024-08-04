@@ -4,8 +4,8 @@ import os
 import sys
 import threading
 import requests
-from apikey import EMOJI_API_KEY, QUOTES_API_KEY  # Import the API keys
-from fortunes import FORTUNES  # Import the fortunes
+from apikey import EMOJI_API_KEY, QUOTES_API_KEY
+from fortunes import FORTUNES
 
 # Typing messages
 typing_messages = [
@@ -47,19 +47,31 @@ def fetch_random_quote():
 def fetch_random_fortune():
     return random.choice(FORTUNES)
 
-# Function to fetch a random color from an API
-def fetch_random_color():
+# Function to fetch a random light color from an API
+def fetch_random_light_color():
     try:
-        response = requests.get('https://www.thecolorapi.com/random')
-        if response.status_code == 200:
-            color = response.json()
-            hex_value = color['hex']['clean']
-            return f'{hex_value[0]}{hex_value[1]}', f'{hex_value[2]}{hex_value[3]}'
-        else:
-            return '0A', '0B'  # Fallback colors
+        while True:
+            response = requests.get('https://www.thecolorapi.com/random')
+            if response.status_code == 200:
+                color = response.json()
+                hex_value = color['hex']['clean']
+                # Convert hex to RGB
+                r = int(hex_value[0:2], 16)
+                g = int(hex_value[2:4], 16)
+                b = int(hex_value[4:6], 16)
+                # Check if the color is light
+                if (r*0.299 + g*0.587 + b*0.114) > 186:
+                    return hex_value
     except Exception as e:
         print(f"Error fetching color: {e}")
-        return '0A', '0B'  # Fallback colors
+        return 'FFFFFF'  # Fallback light color
+
+def change_screen_color():
+    while True:
+        hex_color = fetch_random_light_color()
+        color_code = f'38;2;{int(hex_color[0:2], 16)};{int(hex_color[2:4], 16)};{int(hex_color[4:6], 16)}'
+        os.system(f'echo \033[{color_code}m')
+        time.sleep(5)  # Every 5 seconds
 
 def print_random_message():
     while True:
@@ -68,13 +80,6 @@ def print_random_message():
         else:
             print(f"\n{fetch_random_fortune()}\n")
         time.sleep(3600)  # Every hour
-
-def change_screen_color():
-    while True:
-        color1, color2 = fetch_random_color()
-        os.system(f'color {color1}')
-        os.system(f'color {color2}')
-        time.sleep(5)  # Every 5 seconds
 
 def show_typing_indicator():
     while True:
