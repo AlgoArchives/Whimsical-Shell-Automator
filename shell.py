@@ -24,9 +24,12 @@ fortunes = [
     "Expect the unexpected."
 ]
 
-def print_motivational_quote():
+def print_random_message():
     while True:
-        print(f"\nMotivational Quote: {random.choice(quotes)}\n")
+        if random.choice([True, False]):
+            print(f"\n{random.choice(quotes)}\n")
+        else:
+            print(f"\n{random.choice(fortunes)}\n")
         time.sleep(3600)  # Every hour
 
 def change_screen_color():
@@ -44,19 +47,15 @@ def show_typing_indicator():
 
 def print_random_emoji():
     while True:
-        print(f"\nRandom Emoji: {random.choice(emojis)}")
-        time.sleep(300)  # Every 300 seconds
-
-def show_fortune_cookie():
-    print(f"\nFortune Cookie: {random.choice(fortunes)}\n")
+        print(f"\n Current Mood: {random.choice(emojis)} ?")
+        time.sleep(300)  # Every 300 seconds (5 minutes)
 
 # Run the functions in separate threads
 threads = [
-    threading.Thread(target=print_motivational_quote),
+    threading.Thread(target=print_random_message),
     threading.Thread(target=change_screen_color),
     threading.Thread(target=show_typing_indicator),
-    threading.Thread(target=print_random_emoji),
-    threading.Thread(target=show_fortune_cookie)
+    threading.Thread(target=print_random_emoji)
 ]
 
 for thread in threads:
